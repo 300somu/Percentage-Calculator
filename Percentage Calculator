@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Sriracha&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+    @media screen and (min-width: 501px) {
+  h1.t1 {
+    font-size: 80px;
+  }
+}
+    @media screen and (max-width: 500px) {
+  h1.t1 {
+    font-size: 30px;
+  }
+}
+        .t1{
+            text-align:center;
+            padding:0 2px;
+            }
+            table,th,td{
+                border:1px solid black;
+            }
+            tr:hover {background-color: #f5f5f5;}
+            th, td {
+  padding: 15px;
+  text-align: left;
+}
+
+            table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: black;
+        }
+        div.container {
+    width:70%; 
+    margin:1%;
+  
+        </style>
+</head>
+<body>
+    <h1 class="t1"> Percentage Calculator:</h1>
+    <center>
+    <div class="container">
+    <form id="form1" name="form1" method="post"  action="student.php">
+        <table width="200" cellpadding="20" class="table table-striped" cellspacing="20" align="center"height="150" border="1">
+            <tr>
+                <td width="123">Registration No </td>
+                <td><input type ="text" name="stdid" id="stdid" class="form-control" placeholder="enter ur regitration"></td>
+</tr>
+<tr>
+    <td> student Name </td>
+ <td> <input type="text" name="stname" id="stname" placeholder="enter ur student name" class="form-control" required ></td>
+</tr>
+<tr>
+    <td> Math</td>
+    <td><input type="text" name="math" id="math" class="form-control" placeholder="enter ur maths marks" required></td>
+</tr>
+<tr>
+<td> science</td>
+    <td><input type="text" name="science" id="science" class="form-control" placeholder="enter ur science marks" required></td>
+</tr>
+<tr>
+<td> physics</td>
+    <td><input type="text" name="physics" id="physics" class="form-control" placeholder="enter ur physics marks" required></td>
+</tr>
+<tr>
+<td> Computer</td>
+    <td><input type="text" name="computer" id="computer"  class="form-control" placeholder="enter ur computer marks" required></td>
+</tr>
+    <td> Enter your choice</td>
+    <td><input type="submit" name="submit"class="btn btn-success" id="button" value="submit">
+    <input type="reset" name="submit" class="btn btn-success" id="reset" value="reset"> 
+</td>
+</tr>
+</table>
+</form>
+  </div>
+  </center>
+</body>
+</html>
+<?php
+$server = "localhost";
+$username = "root";
+$password = "";
+$db="tk1";
+   $con=mysqli_connect($server,$username,$password,$db);
+   if(!$con){
+    die("connection to this database failed due to" . mysqli_connect_error($con));
+}
+if (isset($_POST['submit'])){
+   
+    $stdid=$_POST['stdid'];
+    $stname=$_POST['stname'];
+    $math=$_POST['math'];
+    $science=$_POST['science'];
+    $physics=$_POST['physics'];
+    $computer=$_POST['computer'];
+    $total=$math+$science+$physics+$computer;
+    $percentage=floatval(($total)/4);
+   if ($percentage >= 90 && $percentage<=100) 
+   { 
+       $grade = 'A'; 
+   }
+   else
+   { 
+       if ($percentage >= 80 && $percentage <= 89) 
+       { 
+           $grade = 'B'; 
+       } 
+       else 
+       { 
+           if ($percentage >= 60 && $percentage <= 79) 
+           { 
+               $grade = 'C'; 
+           } 
+           else 
+           { 
+               if ($percentage >= 33 && $percentage <= 59)  
+               { 
+                   $grade = 'D'; 
+               } 
+               else {
+               if($percentage<=33)
+               { 
+                   $grade = 'F'; 
+               }
+               else {
+                   if($percentage>100){
+                       echo "wrong credentall". die("value have to enter wrong").mysqli_error($con)."<br>";
+                       echo "enter the valid marks"."<br>";
+                       $grade="wrong credential for this number";
+                   }
+               }
+
+               }
+
+               }
+              }
+          } 
+
+$sql= "INSERT INTO `tk1`(`stdid`, `stname`, `math`, `science`, `physics`, `computer`,`percentage`, `grade`, `dt`) VALUES ('$stdid','$stname','$math','$science','$physics','$computer','$percentage','$grade', current_timestamp());";
+$run=mysqli_query($con,$sql);
+if($run == true){
+    echo "data inserted successfully";
+}
+else{
+    echo "error";
+}
+}
+?>
