@@ -80,6 +80,7 @@
 </table>
 </form>
   </div>
+  <?php include 'query.php'?>
   </center>
 </body>
 </html>
